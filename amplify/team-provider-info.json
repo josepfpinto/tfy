@@ -22,5 +22,29 @@
         "apitfy": {}
       }
     }
+  },
+  "tfy": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-tfy-tfy-03351-authRole",
+      "UnauthRoleArn": "arn:aws:iam::214895835259:role/amplify-tfy-tfy-03351-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::214895835259:role/amplify-tfy-tfy-03351-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-tfy-tfy-03351-deployment",
+      "UnauthRoleName": "amplify-tfy-tfy-03351-unauthRole",
+      "StackName": "amplify-tfy-tfy-03351",
+      "StackId": "arn:aws:cloudformation:eu-west-1:214895835259:stack/amplify-tfy-tfy-03351/f123db50-fce6-11ed-a431-065864e101bb",
+      "AmplifyAppId": "d15r5faevosrlx"
+    },
+    "categories": {
+      "function": {
+        "tfybackend": {
+          "deploymentBucketName": "amplify-tfy-tfy-03351-deployment",
+          "s3Key": "amplify-builds/tfybackend-7a58354c42514171566b-build.zip"
+        }
+      },
+      "api": {
+        "apitfy": {}
+      }
+    }
   }
 }

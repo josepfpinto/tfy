@@ -5,11 +5,11 @@ from mangum import Mangum
 app = FastAPI()
 handler = Mangum(app)
 
-@app.get("/tfy/")
+@app.get("/")
 def get_root():
     return {"message": "Hello World!"}
 
 
-@app.get("/tfy/query")
+@app.get("/query")
 def get_root():
     return {"message": "A simple message"}
