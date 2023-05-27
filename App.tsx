@@ -5,7 +5,6 @@ import awsExports from './src/aws-exports';
 Amplify.configure(awsExports);
 
 export default function App() {
-  console.log('starting app!');
   return (
     <View style={styles.container}>
       <Text>This is my new app!</Text>
