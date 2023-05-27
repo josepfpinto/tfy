@@ -1,10 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { Amplify } from 'aws-amplify';
+import awsExports from './src/aws-exports';
+Amplify.configure(awsExports);
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text>This is my new app!</Text>
       <StatusBar style="auto" />
     </View>
   );

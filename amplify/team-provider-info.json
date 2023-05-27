@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-tfy-dev-120955-authRole",
+      "UnauthRoleArn": "arn:aws:iam::214895835259:role/amplify-tfy-dev-120955-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::214895835259:role/amplify-tfy-dev-120955-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-tfy-dev-120955-deployment",
+      "UnauthRoleName": "amplify-tfy-dev-120955-unauthRole",
+      "StackName": "amplify-tfy-dev-120955",
+      "StackId": "arn:aws:cloudformation:eu-west-1:214895835259:stack/amplify-tfy-dev-120955/040165c0-fc7f-11ed-b63b-0633492de00f",
+      "AmplifyAppId": "djusfsaz8ar71"
+    },
+    "categories": {
+      "function": {
+        "tfybackend": {
+          "deploymentBucketName": "amplify-tfy-dev-120955-deployment",
+          "s3Key": "amplify-builds/tfybackend-7971426d52696b647156-build.zip"
+        }
+      },
+      "api": {
+        "apitfy": {}
+      }
+    }
+  }
+}

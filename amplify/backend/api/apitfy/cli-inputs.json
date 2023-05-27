@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/tfy": {
+      "name": "/tfy",
+      "lambdaFunction": "tfybackend",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
