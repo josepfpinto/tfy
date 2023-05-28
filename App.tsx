@@ -1,13 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { Amplify } from 'aws-amplify';
+import { StyleSheet, View } from 'react-native';
+import { Amplify, Auth } from 'aws-amplify';
 import awsExports from './src/aws-exports';
+import Home from './src/pages/home';
 Amplify.configure(awsExports);
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>This is my new app!</Text>
+      <Home />
       <StatusBar style="auto" />
     </View>
   );

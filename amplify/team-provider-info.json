@@ -33,7 +33,8 @@
       "UnauthRoleName": "amplify-tfy-tfy-03351-unauthRole",
       "StackName": "amplify-tfy-tfy-03351",
       "StackId": "arn:aws:cloudformation:eu-west-1:214895835259:stack/amplify-tfy-tfy-03351/f123db50-fce6-11ed-a431-065864e101bb",
-      "AmplifyAppId": "d15r5faevosrlx"
+      "AmplifyAppId": "d15r5faevosrlx",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-tfy-tfy-03351-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "function": {
@@ -44,6 +45,9 @@
       },
       "api": {
         "apitfy": {}
+      },
+      "auth": {
+        "tfy9f3c879b": {}
       }
     }
   }
