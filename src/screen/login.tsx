@@ -4,15 +4,29 @@
 
 import React, { useState }
 from 'react'
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native'
+import { View, Text, TextInput, Button, StyleSheet, ToastAndroid } from 'react-native'
 import { PropsLogin } from '../types';
+import { listenToAutoSignInEvent, signIn } from '../api/auth';
+import { useDispatch } from '../store';
+import { setIsLoading, setLogin } from '../api/authSlice';
 
 const Login = ({ route, navigation }: PropsLogin) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+
+    console.log('LOGING!')
 
     const handleLogin = () => {
-        navigation.navigate('Main');
+        dispatch(setIsLoading(true));
+        listenToAutoSignInEvent();
+        signIn(username, password).then((response:any) => {
+            dispatch(setLogin(response));
+            // navigation.dispatch(StackActions.replace('Main'));
+        }).catch((error) => {
+            console.log(error);
+            ToastAndroid.show(error.message, ToastAndroid.LONG);
+        });
     }
 
     return (
@@ -29,6 +43,9 @@ const Login = ({ route, navigation }: PropsLogin) => {
                 onChangeText={setPassword}
             />
             <Button title="Login" onPress={handleLogin} />
+            <Text onPress={() => navigation.navigate('SignUp')}> 
+                Sign Up
+            </Text>
         </View>
     )
 }

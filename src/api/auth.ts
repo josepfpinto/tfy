@@ -1,6 +1,6 @@
-import { Auth } from 'aws-amplify';
-import { Hub } from 'aws-amplify';
+import { Auth, Hub } from 'aws-amplify';
 import { dealResponse } from './utils';
+import { CognitoUser } from 'amazon-cognito-identity-js';
 
 /**
  * This is an async function that signs up a user with a given username and password using AWS Amplify
@@ -12,24 +12,24 @@ import { dealResponse } from './utils';
  * If an error is catched during the sign up process, the data key will contain an error object in this format:
  * { message: error.message}
  */
-export async function signUp(username:string, password:string) {
+export async function signUp(username:string, password:string, email:string) {
     let user:any = {};
 
-    try {
-        user = await Auth.signUp({
-            username,
-            password,
-            attributes: {},
-            autoSignIn: { // enables auto sign in after user is confirmed
-                enabled: true,
-            }
-        });
-        console.log(user);
-        return dealResponse(true, user);
-
-    } catch (error:any) {
-        console.log('error signing up:', error);
-        return dealResponse(false, error.message);
+    user = await Auth.signUp({
+        username,
+        password,
+        attributes: {
+            email,
+        },
+        autoSignIn: { // enables auto sign in after user is confirmed
+            enabled: true,
+        }
+    });
+    console.log(user);
+    if (user.userConfirmed) {
+        return dealResponse(true, user.user);
+    } else {
+        throw new Error('failed to signup user');
     }
 }
 
@@ -46,7 +46,7 @@ export function listenToAutoSignInEvent() {
             return dealResponse(true, payload.data);
 
         } else if (event === 'autoSignIn_failure') {
-            return dealResponse(false, "autoSignIn_failure");
+            throw new Error('autoSignIn_failure');
         }
     });
 }
@@ -62,14 +62,20 @@ export function listenToAutoSignInEvent() {
  * property if there is an error during the sign-in process.
  */
 export async function signIn(username:string, password:string) {
-    try {
-        const user = await Auth.signIn(username, password);
-        console.log('user signed in:', user);
-        return dealResponse(true, user);
-    } catch (error:any) {
-        console.log('error signing in', error);
-        return dealResponse(false, error.message);
+    const user = await Auth.signIn(username, password);
+    console.log('user signed in:', user);
+    
+    if (!(user instanceof CognitoUser)) {
+        throw new Error('Failed to signin');
     }
+    const tokens = await CognitoUserSession();
+    console.log('user tokens:', tokens);
+
+    if (!(user instanceof CognitoUser)) {
+        throw new Error('Failed to get tokens');
+    }
+    
+    return dealResponse(true, {user, tokens});
 }
 
 /**
@@ -82,13 +88,8 @@ export async function signIn(username:string, password:string) {
  * (i.e. it will return undefined).
  */
 export async function signOut(global:boolean) {
-    try {
-        await Auth.signOut(global ? { global: true } : undefined);
-        return dealResponse(true);
-    } catch (error:any) {
-        console.log('error signing out: ', error);
-        return dealResponse(false, error.message);
-    }
+    await Auth.signOut(global ? { global: true } : undefined);
+    return dealResponse(true);
 }
 
 /**
@@ -99,11 +100,19 @@ export async function signOut(global:boolean) {
  * error), and either the JWT token string or an error message as a string.
  */
 export async function getToken() {
-    try {
-        const session = await Auth.currentSession();
-        return dealResponse(true, session.getIdToken().getJwtToken());
-    } catch (error:any) {
-        console.log('error getting token: ', error);
-        return dealResponse(false, error.message);
-    }
+    const session = await Auth.currentSession();
+    return dealResponse(true, session.getIdToken().getJwtToken());
+}
+
+/**
+ * This function retrieves the current session of a Cognito user and returns a response indicating
+ * whether the operation was successful or not.
+ * @returns The function `CognitoUserSession` returns an object with two properties: a boolean value
+ * indicating whether the session was successfully retrieved (`true` if successful, `false` if not),
+ * and either the session object or an error message, depending on whether the retrieval was successful
+ * or not.
+ */
+export async function CognitoUserSession() {
+    const session = await Auth.currentSession();
+    return dealResponse(true, session);
 }
